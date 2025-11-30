@@ -3,12 +3,13 @@
 #include<unistd.h>
 #include "arrays.h"
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
    int num_of_ranks;
    int mpi_rank;
 
-   double *vector, *vector_sum;
+   double* vector;
+   double* vector_sum;
    int number_of_elements;
 
    // Initialize the MPI environment
