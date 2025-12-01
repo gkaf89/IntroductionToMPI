@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
     // Print the initial vector allocated only by rank 0.
     if (mpi_rank == 0) {
         printf("-----------------------------------------------------------\n");
-        print_1d_double(vector, &number_of_elements, &mpi_rank );
+        print_1d_double(vector, &number_of_elements, &mpi_rank);
     }
     sleep(1);
 
@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
     // Print the sum vector allocated only by rank 0.
     if (mpi_rank == 0) {
         printf("-----------------------------------------------------------\n");
-        print_1d_double(vector_sum, &number_of_elements, &mpi_rank );
+        print_1d_double(vector_sum, &number_of_elements, &mpi_rank);
     }
     sleep(1);
 
@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
     if (mpi_rank == 0) {
         printf("-----------------------------------------------------------\n");
     }
-    print_1d_double(vector_sum, &number_of_elements, &mpi_rank );
+    print_1d_double(vector_sum, &number_of_elements, &mpi_rank);
 
     // Finalize the MPI environment
     MPI_Finalize();

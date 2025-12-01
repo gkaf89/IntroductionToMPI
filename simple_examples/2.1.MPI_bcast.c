@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
     sleep(1);
     
     // Bcation variable
-    MPI_Bcast( &variable, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&variable, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     // Print variables before bcasting
     if (mpi_rank == 0) 

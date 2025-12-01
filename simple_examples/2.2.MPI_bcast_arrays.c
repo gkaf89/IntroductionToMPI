@@ -27,11 +27,11 @@ int main(int argc, char* argv[])
     2. Other ranks allocate the vector and initialize to 0
     3. Print vectors before bcasting
     */
-    MPI_Bcast( &number_of_elements, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&number_of_elements, 1, MPI_INT, 0, MPI_COMM_WORLD);
     if (mpi_rank != 0) {
         vector = allocate_1d_double(number_of_elements);
     }
-    print_1d_double(vector,&number_of_elements, &mpi_rank);
+    print_1d_double(vector, &number_of_elements, &mpi_rank);
     sleep(1);
 
     /*
@@ -39,11 +39,11 @@ int main(int argc, char* argv[])
     2. Other ranks allocate the vector and initialize to 0
     3. Print vectors after bcasting
     */
-    MPI_Bcast( vector, number_of_elements, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast(vector, number_of_elements, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     if (mpi_rank == 0) {
         printf("-----------------------------------------------------------\n");
     }
-    print_1d_double(vector,&number_of_elements, &mpi_rank);
+    print_1d_double(vector, &number_of_elements, &mpi_rank);
 
     // Finalize the MPI environment
     MPI_Finalize();

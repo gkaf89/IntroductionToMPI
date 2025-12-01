@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
         number_of_rows = 2;
         number_of_columns = 2;
         matrix = allocate_2d_double(number_of_rows, number_of_columns);
-        intialize_2d_double(matrix, &number_of_rows, &number_of_columns );
+        intialize_2d_double(matrix, &number_of_rows, &number_of_columns);
     }
 
     MPI_Bcast(&number_of_rows, 1, MPI_INT, 0, MPI_COMM_WORLD);
