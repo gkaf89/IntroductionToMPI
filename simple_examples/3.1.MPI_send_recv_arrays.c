@@ -20,14 +20,12 @@ int main(int argc, char* argv[])
    1. Rank 0 initializes the variables' values
    2. Rank 0 Sends information to all other ranks in a loop
    */ 
-   if (mpi_rank == 0)
-   {
+   if (mpi_rank == 0) {
       number_of_elements = 5;
       vector = allocate_1d_double(number_of_elements);
       intialize_1d_double(vector,&number_of_elements);
 
-      for (int i = 1; i < num_of_ranks; i++)
-      {
+      for (int i = 1; i < num_of_ranks; i++) {
          MPI_Send(&number_of_elements, 1, MPI_INT, i, i, MPI_COMM_WORLD);
          MPI_Send(&vector[0], number_of_elements, MPI_DOUBLE, i, i+num_of_ranks, MPI_COMM_WORLD);
       }
@@ -38,8 +36,7 @@ int main(int argc, char* argv[])
    2. Allocate the vectors needed to receive the vector
    3. The other ranks read receive the vector from rank 0
    */ 
-   if (mpi_rank != 0)
-   {
+   if (mpi_rank != 0) {
       MPI_Recv(&number_of_elements, 1, MPI_INT, 0, mpi_rank, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
       vector = allocate_1d_double(number_of_elements);
       printf("MPI rank %d Received from %d, the number of elements : %d\n",mpi_rank, 0, number_of_elements);

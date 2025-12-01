@@ -17,8 +17,7 @@ int main(int argc, char* argv[])
    MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
 
    // First rank initializes the variable's value
-   if (mpi_rank == 0)
-   {
+   if (mpi_rank == 0) {
       number_of_rows = 2;
       number_of_columns = 2;
       matrix = allocate_2d_double_blocked(number_of_rows, number_of_columns);
@@ -27,19 +26,22 @@ int main(int argc, char* argv[])
 
    MPI_Bcast(&number_of_rows, 1, MPI_INT, 0, MPI_COMM_WORLD);
    MPI_Bcast(&number_of_columns, 1, MPI_INT, 0, MPI_COMM_WORLD);
-   if (mpi_rank != 0)
+   if (mpi_rank != 0) {
       matrix = allocate_2d_double_blocked(number_of_rows, number_of_columns);
+   }
 
-   if (mpi_rank == 0)
+   if (mpi_rank == 0) {
       printf("-----------------------------------------------------------\n");
+   }
    print_2d_double(matrix, &number_of_rows, &number_of_columns, &mpi_rank);
    sleep(1);
 
    // Since the NOW the memory of the matrix is consecutive Bcast all elements
    MPI_Bcast(&matrix[0][0], number_of_columns*number_of_rows, MPI_DOUBLE, 0, MPI_COMM_WORLD);
    
-   if (mpi_rank == 0)
+   if (mpi_rank == 0) {
       printf("-----------------------------------------------------------\n");
+   }
    print_2d_double(matrix, &number_of_rows, &number_of_columns, &mpi_rank);
 
    // Finalize the MPI environment

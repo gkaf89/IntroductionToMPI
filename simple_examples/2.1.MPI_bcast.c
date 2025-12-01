@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <mpi.h>
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
    int num_of_ranks;
    int mpi_rank;
 
@@ -13,9 +14,9 @@ int main(int argc, char* argv[]) {
    MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
 
    // Initializes the variable's value
-   if (mpi_rank == 0){
+   if (mpi_rank == 0) {
       variable = 4.0;
-   }else{
+   } else {
       variable = 0.0;
    }
 

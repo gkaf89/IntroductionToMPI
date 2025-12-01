@@ -19,8 +19,7 @@ int main(int argc, char* argv[])
    MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
 
    // First rank initializes variables
-   if (mpi_rank == 0)
-   {
+   if (mpi_rank == 0) {
       number_of_local_elements = 2;
       number_of_elements = number_of_local_elements * num_of_ranks;
       vector = allocate_1d_double(number_of_elements);
@@ -38,18 +37,19 @@ int main(int argc, char* argv[])
    MPI_Scatter(&vector[0], number_of_local_elements, MPI_DOUBLE, &partial_vector[0], number_of_local_elements, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
    // Print of the partial vectors
-   if (mpi_rank == 0)
+   if (mpi_rank == 0) {
       printf("-----------------------------------------------------------\n");
+   }
    print_1d_double(partial_vector, &number_of_local_elements, &mpi_rank);
    sleep(1);
 
    // Change values of the partial vectors and print again
-   for (int i = 0; i < number_of_local_elements; i++)
-   {
+   for (int i = 0; i < number_of_local_elements; i++) {
       partial_vector[i] = mpi_rank;
    }
-   if (mpi_rank == 0)
+   if (mpi_rank == 0) {
       printf("-----------------------------------------------------------\n");
+   }
    print_1d_double(partial_vector, &number_of_local_elements, &mpi_rank);
    sleep(1);
 
@@ -57,17 +57,20 @@ int main(int argc, char* argv[])
    MPI_Gather(&partial_vector[0], number_of_local_elements, MPI_DOUBLE, &vector[0], number_of_local_elements, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
    // All ranks allocate full vector
-   if (vector == NULL)
-      vector = allocate_1d_double(number_of_elements);   
-   if (mpi_rank == 0)
+   if (vector == NULL) {
+      vector = allocate_1d_double(number_of_elements);
+   }   
+   if (mpi_rank == 0) {
       printf("-----------------------------------------------------------\n");
+   }
    print_1d_double(vector, &number_of_elements, &mpi_rank);
    sleep(1);
 
    // Gather all information in partial vector to complete vector for all ranks
    MPI_Allgather(&partial_vector[0], number_of_local_elements, MPI_DOUBLE, &vector[0], number_of_local_elements, MPI_DOUBLE, MPI_COMM_WORLD);
-   if (mpi_rank == 0)
+   if (mpi_rank == 0) {
       printf("-----------------------------------------------------------\n");
+   }
    print_1d_double(vector, &number_of_elements, &mpi_rank);
 
    // Finalize the MPI environment
