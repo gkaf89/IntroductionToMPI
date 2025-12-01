@@ -24,8 +24,8 @@ int main(int argc, char* argv[])
         number_of_local_elements = 2;
         number_of_elements = number_of_local_elements * num_of_ranks;
         vector = allocate_1d_double(number_of_elements);
-        intialize_1d_double(vector, &number_of_elements);
-        print_1d_double(vector, &number_of_elements, &mpi_rank);
+        intialize_1d_double(vector, number_of_elements);
+        print_1d_double(vector, number_of_elements, mpi_rank);
     }
     
     // Number of elements in rank 0 becasted to all world
@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
     if (mpi_rank == 0) {
         printf("-----------------------------------------------------------\n");
     }
-    print_1d_double(partial_vector, &number_of_local_elements, &mpi_rank);
+    print_1d_double(partial_vector, number_of_local_elements, mpi_rank);
     sleep(1);
 
     // Change values of the partial vectors and print again
@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
     if (mpi_rank == 0) {
         printf("-----------------------------------------------------------\n");
     }
-    print_1d_double(partial_vector, &number_of_local_elements, &mpi_rank);
+    print_1d_double(partial_vector, number_of_local_elements, mpi_rank);
     sleep(1);
 
     // Reassemble the information of the partial vectors to rank 0
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
     if (mpi_rank == 0) {
         printf("-----------------------------------------------------------\n");
     }
-    print_1d_double(vector, &number_of_elements, &mpi_rank);
+    print_1d_double(vector, number_of_elements, mpi_rank);
     sleep(1);
 
     // Gather all information in partial vector to complete vector for all ranks
@@ -72,7 +72,7 @@ int main(int argc, char* argv[])
     if (mpi_rank == 0) {
         printf("-----------------------------------------------------------\n");
     }
-    print_1d_double(vector, &number_of_elements, &mpi_rank);
+    print_1d_double(vector, number_of_elements, mpi_rank);
 
     // Finalize the MPI environment
     MPI_Finalize();

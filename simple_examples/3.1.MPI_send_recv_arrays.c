@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     if (mpi_rank == 0) {
         number_of_elements = 5;
         vector = allocate_1d_double(number_of_elements);
-        intialize_1d_double(vector, &number_of_elements);
+        intialize_1d_double(vector, number_of_elements);
 
         for (int i = 1; i < num_of_ranks; i++) {
             MPI_Send(&number_of_elements, 1, MPI_INT, i, i, MPI_COMM_WORLD);
@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
     }
 
     // Print vectors
-    print_1d_double(vector, &number_of_elements, &mpi_rank);
+    print_1d_double(vector, number_of_elements, mpi_rank);
 
     // Finalize the MPI environment
     MPI_Finalize();

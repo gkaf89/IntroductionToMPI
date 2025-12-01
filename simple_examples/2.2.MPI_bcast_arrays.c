@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     if (mpi_rank == 0) {
         number_of_elements = 5;
         vector = allocate_1d_double(number_of_elements);
-        intialize_1d_double(vector, &number_of_elements);
+        intialize_1d_double(vector, number_of_elements);
     }
     /*
     1. Bcast number of elements of the vector
@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
     if (mpi_rank != 0) {
         vector = allocate_1d_double(number_of_elements);
     }
-    print_1d_double(vector, &number_of_elements, &mpi_rank);
+    print_1d_double(vector, number_of_elements, mpi_rank);
     sleep(1);
 
     /*
@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
     if (mpi_rank == 0) {
         printf("-----------------------------------------------------------\n");
     }
-    print_1d_double(vector, &number_of_elements, &mpi_rank);
+    print_1d_double(vector, number_of_elements, mpi_rank);
 
     // Finalize the MPI environment
     MPI_Finalize();

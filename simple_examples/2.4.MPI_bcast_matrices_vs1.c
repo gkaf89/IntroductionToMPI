@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
         number_of_rows = 2;
         number_of_columns = 2;
         matrix = allocate_2d_double(number_of_rows, number_of_columns);
-        intialize_2d_double(matrix, &number_of_rows, &number_of_columns);
+        intialize_2d_double(matrix, number_of_rows, number_of_columns);
     }
 
     MPI_Bcast(&number_of_rows, 1, MPI_INT, 0, MPI_COMM_WORLD);
@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
     if (mpi_rank == 0) {
          printf("-----------------------------------------------------------\n");
     }
-    print_2d_double(matrix, &number_of_rows, &number_of_columns, &mpi_rank);
+    print_2d_double(matrix, number_of_rows, number_of_columns, mpi_rank);
     sleep(1);
 
     // Since the memory of the matrix is not consecutive Bcast each row separately
@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
     if (mpi_rank == 0) {
         printf("-----------------------------------------------------------\n");
     }
-    print_2d_double(matrix, &number_of_rows, &number_of_columns, &mpi_rank);
+    print_2d_double(matrix, number_of_rows, number_of_columns, mpi_rank);
 
     // Finalize the MPI environment
     MPI_Finalize();

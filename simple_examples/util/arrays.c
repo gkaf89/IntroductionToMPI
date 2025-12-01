@@ -62,11 +62,11 @@ double* allocate_1d_double(int elements)
 }
 
 // Print matrix
-void print_2d_double(double** mat, int* rows, int* columns, int* mpi_rank)
+void print_2d_double(double** mat, int rows, int columns, int mpi_rank)
 {
-    printf("Matrix from rank %d : ", *mpi_rank);
-    for (int i = 0; i < *rows; i++) {
-        for (int j = 0; j < *columns; j++) {
+    printf("Matrix from rank %d : ", mpi_rank);
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
             printf(" %4.2f ", mat[i][j]);
         }
     }
@@ -74,29 +74,29 @@ void print_2d_double(double** mat, int* rows, int* columns, int* mpi_rank)
 }
 
 // Print vector
-void print_1d_double(double* vector, int* elements, int* mpi_rank)
+void print_1d_double(double* vector, int elements, int mpi_rank)
 {
-    printf("Vector from rank %d : ", *mpi_rank);
-    for (int i = 0; i < *elements; i++) {
+    printf("Vector from rank %d : ", mpi_rank);
+    for (int i = 0; i < elements; i++) {
         printf(" %4.2f ", vector[i]);
     }
     printf("\n");
 }
 
 // Initialize vector elements
-void intialize_1d_double(double* vector, int* elements)
+void intialize_1d_double(double* vector, int elements)
 {
-    for (int i = 0; i < *elements; i++) {
+    for (int i = 0; i < elements; i++) {
         vector[i] = (double)i;
     }
 }
 
 // Initialize Matrix elements
-void intialize_2d_double(double** matrix, int* rows, int* columns)
+void intialize_2d_double(double** matrix, int rows, int columns)
 {
-    for (int i = 0; i < *rows; i++) {
-        for (int j = 0; j < *columns; j++) {
-            matrix[i][j] = (double)(i * (*columns) + j + 1);
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
+            matrix[i][j] = (double)(i * columns + j + 1);
         }
     }
 }
