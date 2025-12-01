@@ -96,7 +96,7 @@ void intialize_2d_double(double** matrix, int rows, int columns)
 {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
-            matrix[i][j] = (double) (i * columns + j + 1);
+            matrix[i][j] = (double) (i * columns + j);
         }
     }
 }
