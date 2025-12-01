@@ -4,7 +4,9 @@ CC = mpicc
 CFLAGS ?= -O2 -Wall
 LDFLAGS ?= $(CFLAGS)
 
-TARGETS_BARE=1.1.MPI_hello_world 1.2.MPI_hello_world_PP 2.1.MPI_bcast
+MPI ?=
+
+TARGETS_BARE=1.1.MPI_hello_world 2.1.MPI_bcast
 TARGETS_WITH_UTILS=2.2.MPI_bcast_arrays 2.3.MPI_bcast_matrices_error 2.4.MPI_bcast_matrices_vs1 2.5.MPI_bcast_matrices_vs2 3.1.MPI_send_recv_arrays 4.1.MPI_scatter_gather_arrays 5.1.MPI_reduce_allreduce
 
 BUILD_DIR?=build ## Define the outpur directory
@@ -36,7 +38,7 @@ help: # Shows interactive help.
 	@echo
 	@echo "make targets:"
 	@echo
-	@echo Targets without utilities: $(TARGETS_BARE)
+	@echo Targets without utilities: $(TARGETS_BARE) 1.2.MPI_hello_world_PP
 	@echo Targets with utilities: $(TARGETS_WITH_UTILS)
 	@echo
 	@echo "make special targets:"
@@ -73,7 +75,7 @@ $(OBJ_LIB_DIR)/%.o: $(SRC_DIR)/$(LIB_SRC)/%.c $(LIB_HEADERS) | $(OBJ_LIB_DIR)
 	$(CC) -c $(CFLAGS) -I$(SRC_DIR)/$(LIB_SRC) $< -o $@
 
 .PHONY: all
-all: $(TARGETS_BARE) $(TARGETS_WITH_UTILS)
+all: $(TARGETS_BARE) $(TARGETS_WITH_UTILS) 1.2.MPI_hello_world_PP
 
 .PHONY: TARGETS_BARE
 $(TARGETS_BARE): %: $(BIN_BARE_DIR)/%
@@ -92,6 +94,19 @@ $(BIN_WITH_UTILS_DIR)/%: $(OBJ_WITH_UTILS_DIR)/%.o $(LIB_OBJS) | $(BIN_WITH_UTIL
 
 $(OBJ_WITH_UTILS_DIR)/%.o: $(SRC_DIR)/%.c $(LIB_HEADERS) | $(OBJ_WITH_UTILS_DIR)
 	$(CC) -c $(CFLAGS) -I$(SRC_DIR)/$(LIB_SRC) $< -o $@
+
+.PHONY: 1.2.MPI_hello_world_PP
+1.2.MPI_hello_world_PP: $(BIN_BARE_DIR)/1.2.MPI_hello_world_PP
+
+$(BIN_BARE_DIR)/1.2.MPI_hello_world_PP: $(OBJ_BARE_DIR)/1.2.MPI_hello_world_PP.o | $(BIN_BARE_DIR)
+	$(CC) $(LDFLAGS) $^ -o $@
+
+$(OBJ_BARE_DIR)/1.2.MPI_hello_world_PP.o: $(SRC_DIR)/1.2.MPI_hello_world_PP.c | $(OBJ_BARE_DIR)
+ifdef MPI
+	$(CC) -c -D_MPI $(CFLAGS) $< -o $@
+else
+	$(CC) -c $(CFLAGS) $< -o $@
+endif
 
 .PHONY: clean
 clean:
