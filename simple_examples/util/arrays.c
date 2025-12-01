@@ -21,30 +21,14 @@ double** allocate_2d_double(int rows, int columns)
 }
 
 // Allocate empty matrix (consecutive elements)
-double** allocate_2d_double_blocked(int rows, int columns)
+double* allocate_2d_double_blocked(int rows, int columns)
 {
     if (rows <= 0 || columns <= 0) {
         return NULL;
     }
 
-    /* allocate the n*m contiguous items */
-    double* temp_matrix = (double*) malloc(rows * columns * sizeof(double));
-    if (!temp_matrix) {
-        return NULL;
-    }
-
-    /* allocate the row pointers into the memory */
-    double** matrix = (double**) malloc(rows * sizeof(double*));
-
-    if (!(matrix)) {
-        free(temp_matrix);
-        return NULL;
-    }
-
-    /* set up the pointers into the contiguous memory */
-    for (int i = 0; i < rows; i++) {
-        matrix[i] = &(temp_matrix[i * columns]);
-    }
+    /* allocate the n*m contiguous items (and initialize to 0) */
+    double* matrix = (double*) calloc(rows * columns, sizeof(double));
 
     return matrix;
 }
@@ -68,6 +52,17 @@ void print_2d_double(double** mat, int rows, int columns, int mpi_rank)
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
             printf(" %4.2f ", mat[i][j]);
+        }
+    }
+    printf("\n");
+}
+
+void print_2d_double_blocked(double* mat, int rows, int columns, int mpi_rank)
+{
+    printf("Matrix from rank %d : ", mpi_rank);
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
+            printf(" %4.2f ", mat[i*columns + j]);
         }
     }
     printf("\n");
@@ -97,6 +92,15 @@ void intialize_2d_double(double** matrix, int rows, int columns)
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
             matrix[i][j] = (double) (i * columns + j);
+        }
+    }
+}
+
+void intialize_2d_double_blocked(double* matrix, int rows, int columns)
+{
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
+            matrix[i*columns + j] = (double) (i * columns + j);
         }
     }
 }

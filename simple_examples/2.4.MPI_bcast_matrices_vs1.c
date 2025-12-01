@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
 
     // Since the memory of the matrix is not consecutive Bcast each row separately
     for (int i = 0; i < number_of_rows; i++) {
-        MPI_Bcast(&(matrix[i][0]), number_of_columns, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+        MPI_Bcast(matrix[i], number_of_columns, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     }
 
     if (mpi_rank == 0) {

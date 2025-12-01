@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
     // Every rank allocates the receive vector of the partial elements
     partial_vector = allocate_1d_double(number_of_local_elements);
     // Rank 0 distributes original vector in chunks
-    MPI_Scatter(&vector[0], number_of_local_elements, MPI_DOUBLE, &partial_vector[0], number_of_local_elements, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Scatter(vector, number_of_local_elements, MPI_DOUBLE, partial_vector, number_of_local_elements, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     // Print of the partial vectors
     if (mpi_rank == 0) {
@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
     sleep(1);
 
     // Reassemble the information of the partial vectors to rank 0
-    MPI_Gather(&partial_vector[0], number_of_local_elements, MPI_DOUBLE, &vector[0], number_of_local_elements, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Gather(partial_vector, number_of_local_elements, MPI_DOUBLE, vector, number_of_local_elements, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     // All ranks allocate full vector
     if (vector == NULL) {
@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
     sleep(1);
 
     // Gather all information in partial vector to complete vector for all ranks
-    MPI_Allgather(&partial_vector[0], number_of_local_elements, MPI_DOUBLE, &vector[0], number_of_local_elements, MPI_DOUBLE, MPI_COMM_WORLD);
+    MPI_Allgather(partial_vector, number_of_local_elements, MPI_DOUBLE, vector, number_of_local_elements, MPI_DOUBLE, MPI_COMM_WORLD);
     if (mpi_rank == 0) {
         printf("-----------------------------------------------------------\n");
     }

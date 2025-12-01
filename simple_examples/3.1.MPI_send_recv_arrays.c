@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 
         for (int i = 1; i < num_of_ranks; i++) {
             MPI_Send(&number_of_elements, 1, MPI_INT, i, i, MPI_COMM_WORLD);
-            MPI_Send(&vector[0], number_of_elements, MPI_DOUBLE, i, i+num_of_ranks, MPI_COMM_WORLD);
+            MPI_Send(vector, number_of_elements, MPI_DOUBLE, i, i+num_of_ranks, MPI_COMM_WORLD);
         }
     }
     
@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
         MPI_Recv(&number_of_elements, 1, MPI_INT, 0, mpi_rank, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         vector = allocate_1d_double(number_of_elements);
         printf("MPI rank %d Received from %d, the number of elements : %d\n",mpi_rank, 0, number_of_elements);
-        MPI_Recv(&vector[0], number_of_elements, MPI_DOUBLE, 0, mpi_rank+num_of_ranks, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Recv(vector, number_of_elements, MPI_DOUBLE, 0, mpi_rank+num_of_ranks, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
     // Print vectors
