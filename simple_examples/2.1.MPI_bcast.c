@@ -29,8 +29,9 @@ int main(int argc, char* argv[])
     MPI_Bcast(&variable, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     // Print variables before bcasting
-    if (mpi_rank == 0) 
+    if (mpi_rank == 0) {
         printf("-----------------------------------------------------------\n");
+    }
     printf("Value of the variable for rank %d out of %d processes : %f \n", mpi_rank, num_of_ranks, variable);
 
     // Finalize the MPI environment
