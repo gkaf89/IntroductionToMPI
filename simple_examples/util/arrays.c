@@ -45,6 +45,28 @@ double* allocate_1d_double(int elements)
     return vector;
 }
 
+double* free_1d_double(double* vector)
+{
+    free(vector);
+    return NULL;
+}
+
+double** free_2d_double(double** matrix, int rows)
+{
+    for (int i = 0; i < rows; i++) {
+        free(matrix[i]);
+	}
+	free(matrix);
+
+	return NULL;
+}
+
+double* free_2d_double_blocked(double* matrix)
+{
+    free(matrix);
+	return NULL;
+}
+
 // Print matrix
 void print_2d_double(double** mat, int rows, int columns, int mpi_rank)
 {

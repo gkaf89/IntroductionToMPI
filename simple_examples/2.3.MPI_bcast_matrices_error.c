@@ -45,6 +45,8 @@ int main(int argc, char* argv[])
     }
     print_2d_double(matrix, number_of_rows, number_of_columns, mpi_rank);
 
+    matrix = free_2d_double(matrix, number_of_rows);
+
     // Finalize the MPI environment
     MPI_Finalize();
 

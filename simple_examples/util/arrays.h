@@ -4,6 +4,9 @@
 double* allocate_1d_double(int elements);
 double** allocate_2d_double(int rows, int columns);
 double* allocate_2d_double_blocked(int rows, int columns);
+double* free_1d_double(double* vector);
+double** free_2d_double(double** matrix, int rows);
+double* free_2d_double_blocked(double* matrix);
 void print_1d_double(double* vector, int elements, int mpi_rank);
 void print_2d_double(double** matrix, int rows, int columns, int mpi_rank);
 void print_2d_double_blocked(double* matrix, int rows, int columns, int mpi_rank);

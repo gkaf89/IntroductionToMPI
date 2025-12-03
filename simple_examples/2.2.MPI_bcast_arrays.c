@@ -46,6 +46,8 @@ int main(int argc, char* argv[])
     }
     print_1d_double(vector, number_of_elements, mpi_rank);
 
+    vector = free_1d_double(vector);
+
     // Finalize the MPI environment
     MPI_Finalize();
 
