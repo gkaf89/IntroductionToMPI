@@ -1,10 +1,17 @@
 $(info Introduction to MPI)
 
-CC = mpicc
+CC := mpicc
 CFLAGS ?= -O2 -Wall
 LDFLAGS ?= $(CFLAGS)
 
 MPI ?=
+
+MPICC := gcc
+MPICFLAGS = $(CFLAGS)
+ifdef MPI
+MPICFLAGS += -D_MPI
+MPICC = $(CC)
+endif
 
 TARGETS_BARE=1.1.MPI_hello_world 2.1.MPI_bcast
 TARGETS_WITH_UTILS=2.2.MPI_bcast_arrays 2.3.MPI_bcast_matrices_error 2.4.MPI_bcast_matrices_vs1 2.5.MPI_bcast_matrices_vs2 3.1.MPI_send_recv_arrays 4.1.MPI_scatter_gather_arrays 5.1.MPI_reduce_allreduce
@@ -102,11 +109,7 @@ $(BIN_BARE_DIR)/1.2.MPI_hello_world_PP: $(OBJ_BARE_DIR)/1.2.MPI_hello_world_PP.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
 $(OBJ_BARE_DIR)/1.2.MPI_hello_world_PP.o: $(SRC_DIR)/1.2.MPI_hello_world_PP.c | $(OBJ_BARE_DIR)
-ifdef MPI
-	$(CC) -c -D_MPI $(CFLAGS) $< -o $@
-else
-	$(CC) -c $(CFLAGS) $< -o $@
-endif
+	$(MPICC) -c $(MPICFLAGS) $< -o $@
 
 .PHONY: clean
 clean:
