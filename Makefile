@@ -12,6 +12,8 @@ CFLAGS_FLEX = $(CFLAGS)
 ifeq ($(MPI), on)
 MPICC_FLEX = $(MPICC)
 CFLAGS_FLEX += -D_MPI
+else
+MPI := off
 endif
 
 TARGETS_BARE:=1.1.MPI_hello_world 2.1.MPI_bcast
@@ -76,12 +78,27 @@ $(patsubst %, $(BIN_DIR)/%, $(TARGETS_UTILS)): $(BIN_DIR)/%: $(OBJ_DIR)/%.o $(LI
 $(patsubst %, $(OBJ_DIR)/%.o, $(TARGETS_UTILS)): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(LIB_HEADERS) | $(OBJ_DIR)
 	$(MPICC) -c $(CFLAGS) -I$(SRC_DIR)/$(LIB_SRC) $< -o $@
 
-$(TARGETS_BARE_CONDITIONAL_MPI): %: $(BIN_DIR)/%
+MPI_CACHE := $(strip $(BUILD_DIR))/.mpi
+
+$(TARGETS_BARE_CONDITIONAL_MPI): %: UPDATE_MPI_CACHE $(BIN_DIR)/%
+
+.PHONY: UPDATE_MPI_CACHE
+UPDATE_MPI_CACHE:
+	if [ -f $(MPI_CACHE) ]; then \
+	    OLD_MPI="$$(cat $(MPI_CACHE))"; \
+	else \
+	    OLD_MPI=""; \
+	fi; \
+	if [ "$${OLD_MPI}" != "$(MPI)" ]; then \
+	    echo "$(MPI)" > $(MPI_CACHE); \
+	fi
+
+$(MPI_CACHE): UPDATE_MPI_CACHE
 
 $(patsubst %, $(BIN_DIR)/%, $(TARGETS_BARE_CONDITIONAL_MPI)): $(BIN_DIR)/%: $(OBJ_DIR)/%.o | $(BIN_DIR)
 	$(MPICC_FLEX) $(LDFLAGS) $^ -o $@
 
-$(patsubst %, $(OBJ_DIR)/%.o, $(TARGETS_BARE_CONDITIONAL_MPI)): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+$(patsubst %, $(OBJ_DIR)/%.o, $(TARGETS_BARE_CONDITIONAL_MPI)): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(MPI_CACHE) | $(OBJ_DIR)
 	$(MPICC_FLEX) -c $(CFLAGS_FLEX) $< -o $@
 
 $(LIB_OBJS): $(OBJ_DIR)/%.o: $(SRC_DIR)/$(LIB_SRC)/%.c $(LIB_HEADERS) | $(OBJ_LIB_DIR)
