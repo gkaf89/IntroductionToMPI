@@ -12,8 +12,9 @@ CFLAGS_FLEX = $(CFLAGS)
 ifeq ($(MPI), on)
 MPICC_FLEX = $(MPICC)
 CFLAGS_FLEX += -D_MPI
+_MPI := on
 else
-MPI := off
+_MPI := off
 endif
 
 TARGETS_BARE:=1.1.MPI_hello_world 2.1.MPI_bcast
@@ -41,7 +42,7 @@ $(foreach var, $(CACHE), $(eval $(var)_CACHE=$(strip $(CACHE_DIR))/$(var)))
 .PHONY: $(patsubst %, UPDATE_%_CACHE, $(CACHE))
 $(patsubst %, UPDATE_%_CACHE, $(CACHE)): UPDATE_%_CACHE: | $(CACHE_DIR)
 	$(eval VAR_NAME = $(patsubst UPDATE_%_CACHE, %, $@))
-	$(eval VAR_VALUE = $(value $(strip $(patsubst UPDATE_%_CACHE, %, $@))))
+	$(eval VAR_VALUE = $(value $(strip $(patsubst UPDATE_%_CACHE, _%, $@))))
 	$(eval CACHE_FILE = $(strip $(CACHE_DIR))/$(strip $(patsubst UPDATE_%_CACHE, %, $@)))
 	if [ -f "$(strip $(CACHE_FILE))" ]; then \
 	    OLD_$(VAR_NAME)="$$(cat "$(CACHE_FILE)")"; \
