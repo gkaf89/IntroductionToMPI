@@ -1,4 +1,4 @@
-TARGETS_EXERCISE_BASE:=excercise_2_1 excercise_2_2
+TARGETS_EXERCISE_BASE:=exercise_2_1 exercise_2_2
 TARGETS_EXERCISE_SOLUTIONS:=2.1.mxm_static_scattering_col_alloc 2.1.mxm_static_scattering_row_alloc
 
 TARGETS_EXERCISE:=$(TARGETS_EXERCISE_BASE) $(TARGETS_EXERCISE_SOLUTIONS)
